@@ -47,52 +47,52 @@ class HomoMatrix():
         self.C2 = C2
 
 
-    def constructLocalMat(self, src_pts, grids, scale_factor):
-        '''
-        This function 
-        src_pts : A N by 2 matrix. N is number of matching pairs.
-        grids : A instance of Grids class. 
-        '''
+    # def constructLocalMat(self, src_pts, grids, scale_factor):
+    #     '''
+    #     This function 
+    #     src_pts : A N by 2 matrix. N is number of matching pairs.
+    #     grids : A instance of Grids class. 
+    #     '''
 
-        gamma = 0.0025
-        src_pts = cp.asarray(src_pts)
-        grids_center_coordi = cp.asarray(grids.center_lst) # A M by 2 matrix, M is number of grids.
-        grid_num = len(grids.center_lst)
-        A = cp.asarray(self.A)
-        C1 = cp.asarray(self.C1)
-        C2 = cp.asarray(self.C2)
-        matchingPairNum = src_pts.shape[0]
-        skip = 0
-        global_H = cp.asarray( np.copy(self.globalHomoMat ) )
-        local_homo_mat_lst = cp.zeros((grid_num,3,3))
+    #     gamma = 0.0025
+    #     src_pts = cp.asarray(src_pts)
+    #     grids_center_coordi = cp.asarray(grids.center_lst) # A M by 2 matrix, M is number of grids.
+    #     grid_num = len(grids.center_lst)
+    #     A = cp.asarray(self.A)
+    #     C1 = cp.asarray(self.C1)
+    #     C2 = cp.asarray(self.C2)
+    #     matchingPairNum = src_pts.shape[0]
+    #     skip = 0
+    #     global_H = cp.asarray( np.copy(self.globalHomoMat ) )
+    #     local_homo_mat_lst = cp.zeros((grid_num,3,3))
 
-        change_mask = []
-        for idx in range( grid_num):
-            grid_coordi = grids_center_coordi[idx]
+    #     change_mask = []
+    #     for idx in range( grid_num):
+    #         grid_coordi = grids_center_coordi[idx]
 
-            weight = cp.exp(
-                (-1) * cp.sum((src_pts - grid_coordi)**2, axis=1) / scale_factor**2)
+    #         weight = cp.exp(
+    #             (-1) * cp.sum((src_pts - grid_coordi)**2, axis=1) / scale_factor**2)
 
-            print(f'SVD {idx+1:8d}/{grid_num}({(idx+1)/(grid_num)*100:8.1f}%)  Current skip {skip} times. Current Skip rate is {skip/grid_num:5.3%}', end='\r')
+    #         print(f'SVD {idx+1:8d}/{grid_num}({(idx+1)/(grid_num)*100:8.1f}%)  Current skip {skip} times. Current Skip rate is {skip/grid_num:5.3%}', end='\r')
             
 
-            if cp.amax(weight) < gamma:
-                skip += 1
-                local_homo_mat_lst[idx, :, :] = global_H
-                continue
+    #         if cp.amax(weight) < gamma:
+    #             skip += 1
+    #             local_homo_mat_lst[idx, :, :] = global_H
+    #             continue
 
-            weight = cp.repeat(weight, 2)
-            weight[weight < gamma] = gamma
-            weight = weight.reshape((2*matchingPairNum, 1))
-            weighted_A = cp.multiply(weight, A)
-            u, s, v = cp.linalg.svd(weighted_A)
-            H = v[-1, :].reshape((3, 3))
-            H = cp.linalg.inv(C2) @ H @ C1
-            H = H/H[-1, -1]
-            local_homo_mat_lst[idx, :, :] = H
-            change_mask.append(idx)
-        print()
+    #         weight = cp.repeat(weight, 2)
+    #         weight[weight < gamma] = gamma
+    #         weight = weight.reshape((2*matchingPairNum, 1))
+    #         weighted_A = cp.multiply(weight, A)
+    #         u, s, v = cp.linalg.svd(weighted_A)
+    #         H = v[-1, :].reshape((3, 3))
+    #         H = cp.linalg.inv(C2) @ H @ C1
+    #         H = H/H[-1, -1]
+    #         local_homo_mat_lst[idx, :, :] = H
+    #         change_mask.append(idx)
+    #     print()
 
-        self.non_global_homo_mat_lst = change_mask
-        self.localHomoMat_lst = cp.asnumpy( local_homo_mat_lst )
+    #     self.non_global_homo_mat_lst = change_mask
+    #     self.localHomoMat_lst = cp.asnumpy( local_homo_mat_lst )
         
