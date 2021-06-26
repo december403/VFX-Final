@@ -6,19 +6,19 @@ from mask import Mask
 from ImgMatcher import ImgMatcher
 import argparse
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument('target_image')
-# parser.add_argument('reference_image')
+parser = argparse.ArgumentParser()
+parser.add_argument('target_image')
+parser.add_argument('reference_image')
 
-# args = parser.parse_args()
+args = parser.parse_args()
 
-tar_img = cv2.imread('image/level0/DJI_0016_dark.png')
-ref_img = cv2.imread('image/level0/DJI_0015.png')
+# tar_img = cv2.imread('image/level0/DJI_0016_dark.png')
+# ref_img = cv2.imread('image/level0/DJI_0015.png')
 
 # ref_img = cv2.imread('image/paper_test_image/1.jpg')
 # tar_img = cv2.imread('image/paper_test_image/2.jpg')
-# ref_img = cv2.imread(args.reference_image)
-# tar_img = cv2.imread(args.target_image)
+ref_img = cv2.imread(args.reference_image)
+tar_img = cv2.imread(args.target_image)
 # ref_img = cv2.imread('/home/zer0/image_stitching/2.jpg')
 # tar_img = cv2.imread('/home/zer0/image_stitching/1.jpg')
 
