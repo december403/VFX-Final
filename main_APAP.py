@@ -5,7 +5,8 @@ import time
 from mask import Mask
 from ImgMatcher import ImgMatcher
 import argparse
-
+import os
+print(os.getcwd())
 parser = argparse.ArgumentParser()
 parser.add_argument('target_image')
 parser.add_argument('reference_image')
