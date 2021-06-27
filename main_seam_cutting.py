@@ -87,18 +87,18 @@ for idx, vertex,in enumerate(verteices_lst):
 
 
 cv2.imwrite('result.png', result)
-cv2.imwrite('result_from_reference.png', mask_seam + mask.ref_nonoverlap) 
+# cv2.imwrite('result_from_reference.png', mask_seam + mask.ref_nonoverlap) 
 # cv2.imwrite(args.out_file_name, result)
-result[mask.overlap_edge>0] = (0,255,0)
-# result[maskedSLIC.contour_mask>0] = (0,255,0)
-# cv2.imwrite('result_pixel.png', result)
-kernal = np.ones((5,5), np.int8)
-mask_seam = cv2.morphologyEx(mask_seam, cv2.MORPH_DILATE, kernal) - mask_seam
-mask_seam[mask.overlap==0] = 0
+# result[mask.overlap_edge>0] = (0,255,0)
+# # result[maskedSLIC.contour_mask>0] = (0,255,0)
+# # cv2.imwrite('result_pixel.png', result)
+# kernal = np.ones((5,5), np.int8)
+# mask_seam = cv2.morphologyEx(mask_seam, cv2.MORPH_DILATE, kernal) - mask_seam
+# mask_seam[mask.overlap==0] = 0
 
-result[mask_seam>0] = (0,0,255)
+# result[mask_seam>0] = (0,0,255)
 
-cv2.imwrite('result_pixel_seam.png', result)
+# cv2.imwrite('result_pixel_seam.png', result)
 
 print(f'finished stitching   in {time.time()-start:8.3f}')
 
@@ -106,8 +106,8 @@ print(f'finished stitching   in {time.time()-start:8.3f}')
 Write seam mask to .png file
 '''
 
-cv2.imwrite('seam_mask.png',mask_seam)
-cv2.imwrite('overlap.png', mask.overlap)
+# cv2.imwrite('seam_mask.png',mask_seam)
+# cv2.imwrite('overlap.png', mask.overlap)
 # cv2.imwrite('overlap_edge.png', mask.overlap_edge)
 # cv2.imwrite('reference_overlap_edge.png', mask.ref_overlap_edge)
 # cv2.imwrite('target_overlap_edge.png', mask.tar_overlap_edge)
