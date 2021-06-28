@@ -96,9 +96,9 @@ cv2.imwrite('result.png', result)
 # mask_seam = cv2.morphologyEx(mask_seam, cv2.MORPH_DILATE, kernal) - mask_seam
 # mask_seam[mask.overlap==0] = 0
 
-# result[mask_seam>0] = (0,0,255)
+result[mask_seam>0] = (0,0,255)
 
-# cv2.imwrite('result_pixel_seam.png', result)
+cv2.imwrite('result_pixel_seam.png', result)
 
 print(f'finished stitching   in {time.time()-start:8.3f}')
 
